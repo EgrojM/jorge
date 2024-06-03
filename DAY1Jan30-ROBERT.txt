@@ -230,6 +230,7 @@ ip address trusted list
 ipv4 0.0.0.0 0.0.0.0
 exit
 
+!OUTGOING CALL FROM CUCM TO OTHER CUCM.
 configure terminal
 ! dial-peer voice 11 Voip
 ! destination-pattern 11..

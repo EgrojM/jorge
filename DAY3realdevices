@@ -21,6 +21,7 @@ no auto-summary
 network 10.11.11.0 0.0.0.255
 
 @Edge Router: both eigrp (internal) and ospf (external):
+config t
 router ospf 1
 router-id 11.0.0.1
 network 200.0.0.0 0.0.0.255 area 0

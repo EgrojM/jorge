@@ -27,6 +27,8 @@ show ip route eigrp
 
 
 show ip ospf neighbor
+show ip route ospf
+show ip protocols
 
 @Edge Router: both eigrp (internal) and ospf (external):
 config t
@@ -35,3 +37,12 @@ router-id 11.0.0.1
 network 200.0.0.0 0.0.0.255 area 0
 network 11.0.0.1 0.0.0.0 area 0
 end
+
+@Edge:
+config t
+router ospf 1
+ redistribute eigrp 11 subnets
+router eigrp 11
+ redistribute ospf 11 Metric 1000000 1 255 1 1500
+end
+

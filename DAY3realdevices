@@ -47,6 +47,6 @@ config t
 router ospf 1
  redistribute eigrp 11 subnets
 router eigrp 11
- redistribute ospf 11 Metric 1000000 1 255 1 1500
+ redistribute ospf 1 Metric 1000000 1 255 1 1500
 end
 

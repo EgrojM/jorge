@@ -242,6 +242,21 @@ Top 5 UTM: 1.FortinetFortigate:
            2. Checkpoint
            3.4 Cisco
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 TASK8: CONGigure YOur first Packet Filter Firewall.
  FORMULA: "  Protocol    hacker   victim  Port "
         tcp,udp,icmp,IP   "any"   cm/cm2   
@@ -288,6 +303,36 @@ nmap -v cm       nmap -v cm2
 22               443
 2000             23
 80               53
+
+-------With IP Phone 
+config t
+NO IP access-list Extended fwpolicy2
+IP access-list Extended fwpolicy2
+ permit Tcp Any host cm Eq 22
+ permit Tcp Any host cm Eq 2000
+ permit Tcp Any host cm Eq 80
+ permit Tcp Any host cm Eq 443
+ permit Tcp Any host cm2 Eq 23
+ permit Tcp Any host cm2 Eq 53
+ do sh ip access-list fwpolicy2
+ Int Fa 0/0
+  ip access-group fwpolicy2 IN
+  end
+
+-------No IP Phone
+config t
+NO IP access-list Extended fwpolicy2
+IP access-list Extended fwpolicy2
+ permit Tcp Any host cm Eq 22
+ permit Tcp Any host cm Eq 80
+ permit Tcp Any host cm Eq 443
+ permit Tcp Any host cm2 Eq 23
+ permit Tcp Any host cm2 Eq 53
+ do sh ip access-list fwpolicy2
+ Int Fa 0/0
+  ip access-group fwpolicy2 IN
+  end
+
 
 ex.2: Make a Firewall so that we can meet this fwpolicy3:
 cm is a ping,cucm/sccp,

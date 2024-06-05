@@ -25,6 +25,9 @@ show ip eigrp neighbor
 show ip eigrp topology
 show ip route eigrp
 
+
+show ip ospf neighbor
+
 @Edge Router: both eigrp (internal) and ospf (external):
 config t
 router ospf 1

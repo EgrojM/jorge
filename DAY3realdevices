@@ -6,7 +6,7 @@ network 10.11.100.0 0.0.0.255
 
 @Corebaba
 config t
-router eigrp 11
+no router eigrp 11
 no auto-summary
 network 10.11.100.0 0.0.0.255
 network 10.11.50.0 0.0.0.255

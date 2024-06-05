@@ -62,7 +62,7 @@ Int Gi 0/0/1
  ip access-group NOCOL1 in
 end
 
-Specific
+Specific 4 IP phones only
 config t
 NO ip access-list standard NOCOL1
 ip access-list standard NOCOL1
@@ -79,6 +79,35 @@ Int Gi 0/0/1
  ip access-group NOCOL1 in
 end
 
+Open call to all team
+config t
+Int Gi 0/0/1
+ NO ip access-group NOCOL1 in
+end
+
+"TREESOME"
+config t
+NO ip access-list standard NOCOL1
+ip access-list standard NOCOL1
+DENY 10.32.0.0 0.0.255.255
+DENY 10.12.0.0 0.0.255.255
+DENY 10.22.0.0 0.0.255.255
+DENY 10.61.0.0 0.0.255.255
+DENY 10.62.0.0 0.0.255.255
+DENY 10.51.0.0 0.0.255.255
+DENY 10.41.0.0 0.0.255.255
+DENY 10.42.0.0 0.0.255.255
+DENY 10.52.0.0 0.0.255.255
+Permit Any
+Int Gi 0/0/1
+ ip access-group NOCOL1 in
+end
+
+"Remove TREESOME"
+config t
+Int Gi 0/0/1
+ No ip access-group NOCOL1 in
+end
 
 TASK3: When you become a Security Analyst:
 Learn to Block the IPaddress from 3 "BAD" countries:
@@ -178,10 +207,11 @@ intentionally hackable websites
 task6: How to Make CUCM intentionally hackable to Learn
 the Basics for Firewalls.
 before: nmap -v 10.m.100.8
+
 @Cucm:
 config t
 int fa 0/0
- ip add 10.m.100.9 255.255.255.0 Secondary
+ ip add 10.11.100.9 255.255.255.0 Secondary
 service finger
 service tcp-small-servers
 service udp-small-servers
@@ -189,13 +219,16 @@ ip dns server
 ip http server
 ip http secure-server
 !Make Ping EASY
-ip host pc 10.m.1.10
-ip host cm 10.m.100.8
-ip host cm2 10.m.100.9
-ip host p1 10.m.100.101
-ip host p2 10.m.100.102
-ip host sw 10.m.1.4
-ip host ed 10.m.m.1
+ip host pc 10.11.1.10
+ip host cm 10.11.100.8
+ip host cm2 10.11.100.9
+ip host p1 10.11.100.101
+ip host p2 10.11.100.102
+ip host c6 10.11.50.6
+ip host c8 10.11.50.8
+ip host sw 10.11.1.4
+ip host ed 10.11.11.1
+end
 
 TASK7: Enter the World of BlueTeam: Protect vs Redteam: Attack, 
 BlueTeam: UTM: unified Threat management:

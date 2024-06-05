@@ -22,9 +22,9 @@ net  use  s: \\10.k.1.10\c$  /user:administrator
 net  use  s: \\10.k.1.10\c$
 
 TASK1: PROTECT YOUR MOST IMPORTANT BUSINESS ASSET:
-PROTECT YOUR PEOPLE
-
-
+PROTECT YOUR PEOPLE /HARM. USE THE POWER OF CISCO
+access list to block or allow porn sites in the world from entering your network
+Step 1: Give unlimited internet to edge
 @EDGE
 config t
 ip route 0.0.0.0 0.0.0.0 200.0.0.1

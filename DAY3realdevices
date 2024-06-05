@@ -1,0 +1,28 @@
+@CM
+config t
+router eigrp 11
+no auto-summary
+network 10.11.100.0 0.0.0.255
+
+@Corebaba
+config t
+router eigrp 11
+no auto-summary
+network 10.11.100.0 0.0.0.255
+network 10.11.50.0 0.0.0.255
+network 10.11.10.0 0.0.0.255
+network 10.11.1.0 0.0.0.255
+network 10.11.11.0 0.0.0.255
+
+@Edge router
+config t
+router eigrp 11
+no auto-summary
+network 10.11.11.0 0.0.0.255
+
+@Edge Router: both eigrp (internal) and ospf (external):
+router ospf 1
+router-id 11.0.0.1
+network 200.0.0.0 0.0.0.255 area 0
+network 11.0.0.1 0.0.0.0 area 0
+end

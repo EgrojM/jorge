@@ -333,6 +333,10 @@ IP access-list Extended fwpolicy2
   ip access-group fwpolicy2 IN
   end
 
+----@CMD
+nmap -v cm
+nmap -Pn cm2
+
 
 ex.2: Make a Firewall so that we can meet this fwpolicy3:
 cm is a ping,cucm/sccp,

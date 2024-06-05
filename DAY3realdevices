@@ -29,6 +29,8 @@ show ip route eigrp
 show ip ospf neighbor
 show ip route ospf
 show ip protocols
+sh run | section ospf
+sh run | section eigrp
 ******
 
 @Edge Router: both eigrp (internal) and ospf (external):

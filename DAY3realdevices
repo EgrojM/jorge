@@ -20,6 +20,11 @@ router eigrp 11
 no auto-summary
 network 10.11.11.0 0.0.0.255
 
+how to eigrp if eigrp is working correctly
+show ip eigrp neighbor
+show ip eigrp topology
+show ip route eigrp
+
 @Edge Router: both eigrp (internal) and ospf (external):
 config t
 router ospf 1

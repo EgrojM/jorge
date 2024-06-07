@@ -42,7 +42,7 @@ network 200.0.0.0 0.0.0.255 area 0
 network 11.0.0.1 0.0.0.0 area 0
 end
 
-@Edge:
+@Edge: redistribute
 config t
 router ospf 1
  redistribute eigrp 11 subnets

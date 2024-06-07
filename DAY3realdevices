@@ -50,3 +50,62 @@ router eigrp 11
  redistribute ospf 1 Metric 1000000 1 255 1 1500
 end
 
+Reset Cisco Switch recover password thru rebooting of cisco
+Step1: Press Mode repeatedly, after 10secs:
+switch:
+	flash_init
+	dir flash:
+	rename flash:config.text flash:config.forget
+	dir flash:
+	boot
+	^c
+	enable
+	copy flash:config.bak run
+	config t
+		enable secret pass
+		do wr
+	!!recycle Old commands,but change password
+
+config t
+   hostname COREtaas11
+   enable secret pass
+   service password-encryption
+   no logging console
+   no ip domain-lookup
+   line console 0
+     password pass
+     login
+     exec-timeout 0 0
+    line vty 0 14
+      password pass
+      login
+      exec-timeout 0 0
+   Int Vlan 1
+     no shutdown
+	 ip add 10.11.1.2 255.255.255.0
+	 description MGMTDATA
+   Int Vlan 10
+     no shutdown
+	 ip add 10.11.10.2 255.255.255.0
+	 description WIRELESS
+   Int Vlan 50
+     no shutdown
+	 ip add 10.11.50.2 255.255.255.0
+	 description IPCCTV
+   Int Vlan 100
+     no shutdown
+	 ip add 10.11.100.2 255.255.255.0
+	 description VOICEVLAN
+
+@CUCM
+config t
+no telephony-service
+default int fa 0/0
+
+@EDge: deletes all routing/gentleReset
+config t
+no ip routing
+ip routing
+end
+
+

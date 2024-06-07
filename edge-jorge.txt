@@ -1,0 +1,194 @@
+
+!
+! Last configuration change at 04:01:54 UTC Fri Jun 7 2024
+!
+version 16.9
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+platform qfp utilization monitor load 80
+platform punt-keepalive disable-kernel-core
+!
+hostname EDGE11
+!
+boot-start-marker
+boot-end-marker
+!
+!
+vrf definition Mgmt-intf
+ !
+ address-family ipv4
+ exit-address-family
+ !
+ address-family ipv6
+ exit-address-family
+!
+no logging console
+enable secret 5 $1$NW.U$Dn9TsnVjx3DWAyOpXy3690
+!
+no aaa new-model
+!
+no ip domain lookup
+!
+!
+!
+login on-success log
+!
+!
+!
+!
+!
+!
+!
+subscriber templating
+! 
+! 
+! 
+! 
+!
+multilink bundle-name authenticated
+!
+!
+!
+crypto pki trustpoint TP-self-signed-3554684029
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-3554684029
+ revocation-check none
+ rsakeypair TP-self-signed-3554684029
+!
+!
+crypto pki certificate chain TP-self-signed-3554684029
+ certificate self-signed 01
+  30820330 30820218 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 33353534 36383430 3239301E 170D3234 30363035 30313235 
+  32375A17 0D333030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D33 35353436 
+  38343032 39308201 22300D06 092A8648 86F70D01 01010500 0382010F 00308201 
+  0A028201 0100DC01 71110E15 277C2331 4EEAEC7A E4A56D8B 5ABCFDCA 7A8FE136 
+  E2B88EB3 C8BCB02D 2ACB55A3 661AB47A 79ABF039 BC4952A7 D528A9A1 81C189D9 
+  D72A179A 18919A5E 3DE450F3 3906EDF7 72F3431F FF96219D B91A0105 488781B7 
+  EEFB5D88 FCF7E861 E433208E 3573E225 A9FB0DFD C35E24C9 1DD623AF B428D107 
+  A356C7CF CABA9C05 B05DB892 1FA4ACCB DA7F2C04 EB608267 370787D0 E2CDEDEA 
+  2C15B8AF 37A7465D 6E96171E 6284B210 C5313AEB 362E78C1 56E32903 B054E990 
+  F849ADF7 A2336332 82576AFD 2F9B8A15 192723C2 38CA4262 3E00BC95 8AF4742D 
+  0815DD61 94F1F6B8 1C5EA337 62B76D13 1D96A5A4 31796504 1DA2D1E1 B98FDC50 
+  AFC77C75 0ED50203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 
+  301F0603 551D2304 18301680 148616AE 3DDA4407 B124A54A 3F054F87 CCBBAF90 
+  2C301D06 03551D0E 04160414 8616AE3D DA4407B1 24A54A3F 054F87CC BBAF902C 
+  300D0609 2A864886 F70D0101 05050003 82010100 9EB64748 79D5C6AA 56D4C161 
+  D380AE26 0A983472 0F5687D6 B8EA4F29 4E8790E1 8A9B5441 765E45B4 DCCBBDCD 
+  04A4B347 BB708053 A6AFD0D8 71B9EDDE BCE3D380 8902D081 2194C7DE 083B13B4 
+  F60E6711 D33F7D35 57EE67DE 4A69A7D9 CE404DEB C5E9C9D4 7819EA31 9A7FF588 
+  10F0E004 D3D691C8 7EBD0B44 89DA0C3F FF1632FF EE54C8BA 0030A921 6D4F84D8 
+  C8AFD0E2 05A94623 897C36E2 FC69698E 90E5C733 61AAEAE3 B1F481EB 06450624 
+  39C749AC 768846D8 7EBB9CF2 46B843AF F076F899 21BF620D CD46F7D2 76019296 
+  BAAA0EAE FDDA8E8D EC644885 94106AD9 F84EE952 3EF3874B F1210F34 839C52D6 
+  7C3BC59B 5235FE03 74A211F2 4EA289E8 AED62523
+  	quit
+!
+license udi pid ISR4321/K9 sn FDO21450AN3
+license boot level securityk9
+no license smart enable
+diagnostic bootup level minimal
+!
+spanning-tree extend system-id
+!
+!
+!
+!
+redundancy
+ mode none
+!
+!
+!
+!
+!
+!
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+!
+! 
+! 
+!
+!
+interface Loopback0
+ description VIRTUALIP
+ ip address 11.0.0.1 255.255.255.255
+!
+interface GigabitEthernet0/0/0
+ description INSIDE
+ ip address 10.11.11.1 255.255.255.0
+ negotiation auto
+!
+interface GigabitEthernet0/0/1
+ description OUTSIDE
+ ip address 200.0.0.11 255.255.255.0
+ negotiation auto
+!
+interface GigabitEthernet0
+ vrf forwarding Mgmt-intf
+ no ip address
+ negotiation auto
+!
+ip forward-protocol nd
+ip http server
+ip http authentication local
+ip http secure-server
+ip http client source-interface GigabitEthernet0/0/1
+ip route 10.11.0.0 255.255.0.0 10.11.11.4
+ip route 10.12.0.0 255.255.0.0 200.0.0.12
+ip route 10.21.0.0 255.255.0.0 200.0.0.21
+ip route 10.22.0.0 255.255.0.0 200.0.0.22
+ip route 10.31.0.0 255.255.0.0 200.0.0.31
+ip route 10.32.0.0 255.255.0.0 200.0.0.32
+ip route 10.41.0.0 255.255.0.0 200.0.0.41
+ip route 10.42.0.0 255.255.0.0 200.0.0.42
+ip route 10.51.0.0 255.255.0.0 200.0.0.51
+ip route 10.52.0.0 255.255.0.0 200.0.0.52
+ip route 10.61.0.0 255.255.0.0 200.0.0.61
+ip route 10.62.0.0 255.255.0.0 200.0.0.62
+ip route 10.71.0.0 255.255.0.0 200.0.0.71
+ip route 10.72.0.0 255.255.0.0 200.0.0.72
+ip route 10.81.0.0 255.255.0.0 200.0.0.81
+ip route 10.82.0.0 255.255.0.0 200.0.0.82
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+line con 0
+ exec-timeout 0 0
+ password 7 071F205F5D
+ login
+ transport input none
+ stopbits 1
+line aux 0
+ stopbits 1
+line vty 0 4
+ exec-timeout 0 0
+ password 7 044B0A151C
+ login
+line vty 5 14
+ exec-timeout 0 0
+ password 7 044B0A151C
+ login
+!
+!
+!
+!
+!
+!
+end

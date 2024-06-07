@@ -1,0 +1,460 @@
+
+!
+! Last configuration change at 14:08:16 UTC Mon Jan 2 2006
+! NVRAM config last updated at 14:19:33 UTC Mon Jan 2 2006
+! NVRAM config last updated at 14:19:33 UTC Mon Jan 2 2006
+version 15.2
+service timestamps debug datetime msec
+service timestamps log datetime msec
+service password-encryption
+service udp-small-servers
+service tcp-small-servers
+!
+hostname CUCM-11
+!
+boot-start-marker
+boot-end-marker
+!
+!
+no logging console
+enable secret 5 $1$Vf8J$cDotxHkj7j8W2lEuuG59x/
+!
+no aaa new-model
+!
+mmi polling-interval 60
+no mmi auto-configure
+no mmi pvc
+mmi snmp-timeout 180
+crypto pki token default removal timeout 0
+!
+crypto pki trustpoint TP-self-signed-2491022365
+ enrollment selfsigned
+ subject-name cn=IOS-Self-Signed-Certificate-2491022365
+ revocation-check none
+ rsakeypair TP-self-signed-2491022365
+!
+!
+crypto pki certificate chain TP-self-signed-2491022365
+ certificate self-signed 01
+  3082022B 30820194 A0030201 02020101 300D0609 2A864886 F70D0101 05050030 
+  31312F30 2D060355 04031326 494F532D 53656C66 2D536967 6E65642D 43657274 
+  69666963 6174652D 32343931 30323233 3635301E 170D3036 30313032 31393137 
+  31345A17 0D323030 31303130 30303030 305A3031 312F302D 06035504 03132649 
+  4F532D53 656C662D 5369676E 65642D43 65727469 66696361 74652D32 34393130 
+  32323336 3530819F 300D0609 2A864886 F70D0101 01050003 818D0030 81890281 
+  8100D35D 84266C31 AB76B398 A0C92F1C 53279D83 22B8DB22 7CE9044B A7DA2414 
+  46DFCD2F B9EDF0AB 1E0BF667 92C38368 2CBC20D4 B7BC184F CDF69FB5 5C89BF87 
+  D86C9755 FC2F6CE8 2847ECB8 C8D26CBA 2398FBFE 4AD06378 3CDDC516 3A93DF1D 
+  7D3D6481 F702A8B0 BDF2614F 6AB907AA CB56B1A8 E5546989 91F804E4 4F122B60 
+  E98D0203 010001A3 53305130 0F060355 1D130101 FF040530 030101FF 301F0603 
+  551D2304 18301680 14C9314A B438D1C2 6B1BFF4C E712342C F077F088 E9301D06 
+  03551D0E 04160414 C9314AB4 38D1C26B 1BFF4CE7 12342CF0 77F088E9 300D0609 
+  2A864886 F70D0101 05050003 8181009B D2A8CA6F 35FCB3C6 BD699ADC 5048D4A9 
+  F152250A BEE2E2D8 2D428F0F AA986FD0 512B0EA1 F1570E55 0A9FBF18 7A0B5BB8 
+  CD18ABF2 CE56CF0F F607E300 E0248FEA 2676824D 822D6BB5 B503C8D2 6A8761F2 
+  4CA5BBCE F29CBF50 68F7939B 87E4E2F1 8DD83FA8 0268A28B 293A8757 B3D12718 
+  8E583B8A 9B9C1822 1C6F26E1 D61266
+  	quit
+dot11 syslog
+!
+!
+!
+ip dhcp excluded-address 10.11.1.1 10.11.1.100
+ip dhcp excluded-address 10.11.10.1 10.11.10.100
+ip dhcp excluded-address 10.11.50.1 10.11.50.100
+ip dhcp excluded-address 10.11.100.1 10.11.100.100
+!
+ip dhcp pool MGMTDATA
+ network 10.11.1.0 255.255.255.0
+ default-router 10.11.1.4 
+ domain-name MGMTDATA.COM
+ dns-server 10.11.1.10 
+!
+ip dhcp pool WIFIDATA
+ network 10.11.10.0 255.255.255.0
+ default-router 10.11.10.4 
+ domain-name WIFIDATA.COM
+ dns-server 10.11.1.10 
+!
+ip dhcp pool IPCCTV
+ network 10.11.50.0 255.255.255.0
+ default-router 10.11.50.4 
+ domain-name IPCCTV.COM
+ dns-server 10.11.1.10 
+!
+ip dhcp pool VOICEVLAN
+ network 10.11.100.0 255.255.255.0
+ default-router 10.11.100.4 
+ domain-name VOICEVLAN.COM
+ dns-server 10.11.1.10 
+ option 150 ip 10.11.100.8 
+!
+!
+no ip domain lookup
+ip host pc 10.11.1.10
+ip host cm 10.11.100.8
+ip host cm2 10.11.100.9
+ip host p1 10.11.100.101
+ip host p2 10.11.100.102
+ip host c6 10.11.50.6
+ip host c8 10.11.50.8
+ip host sw 10.11.1.4
+ip host ed 10.11.11.1
+ip cef
+no ipv6 cef
+!
+multilink bundle-name authenticated
+!
+!
+!
+!
+!
+!
+!
+voice service voip
+ ip address trusted list
+  ipv4 0.0.0.0 0.0.0.0
+ h323
+  call start slow
+!
+!
+!
+!
+!
+voice-card 0
+!
+!
+!
+license udi pid C1861E-SRST-C-F/K9 sn FTX1725843M
+license accept end user agreement
+!
+!
+ip finger 
+! 
+!
+!
+!
+!
+!
+!
+!
+!
+!
+interface FastEthernet0/0
+ ip address 10.11.100.8 255.255.255.0
+ duplex auto
+ speed auto
+!
+interface Integrated-Service-Engine0/0
+ no ip address
+ shutdown
+!
+interface FastEthernet0/1/0
+ no ip address
+!
+interface FastEthernet0/1/1
+ no ip address
+!
+interface FastEthernet0/1/2
+ no ip address
+!
+interface FastEthernet0/1/3
+ no ip address
+!
+interface FastEthernet0/1/4
+ no ip address
+!
+interface FastEthernet0/1/5
+ no ip address
+!
+interface FastEthernet0/1/6
+ no ip address
+!
+interface FastEthernet0/1/7
+ no ip address
+!
+interface FastEthernet0/1/8
+ no ip address
+!
+interface FastEthernet0/2/0
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface FastEthernet0/2/1
+ no ip address
+ shutdown
+ duplex auto
+ speed auto
+!
+interface Vlan1
+ description MGMTDATA
+ ip address 10.11.1.4 255.255.255.0
+!
+interface Vlan10
+ description WIRELESS
+ ip address 10.11.10.4 255.255.255.0
+!
+interface Vlan50
+ description IPCCTV
+ ip address 10.11.50.4 255.255.255.0
+!
+interface Vlan100
+ description VOICEVLAN
+ no ip address
+!
+!
+router eigrp 11
+ network 10.11.100.0 0.0.0.255
+ redistribute ospf 1 metric 1000000 1 255 1 1500
+!
+router ospf 1
+ redistribute eigrp 11 subnets
+!
+ip forward-protocol nd
+ip http server
+ip http secure-server
+!
+!
+ip dns server
+ip route 0.0.0.0 0.0.0.0 10.11.11.1
+ip route 0.0.0.0 0.0.0.0 10.11.100.4
+!
+ip access-list extended fwpolicy1
+ permit tcp any host 10.11.100.8 eq domain
+ permit tcp any host 10.11.100.8 eq 22
+ permit tcp any host 10.11.100.8 eq 2000
+ permit tcp any host 10.11.100.9 eq www
+ permit tcp any host 10.11.100.9 eq 443
+ip access-list extended fwpolicy2
+ permit tcp any host 10.11.100.8 eq 22
+ permit tcp any host 10.11.100.8 eq www
+ permit tcp any host 10.11.100.8 eq 443
+ permit tcp any host 10.11.100.9 eq telnet
+ permit tcp any host 10.11.100.9 eq domain
+ip access-list extended fwpolicy3
+ permit icmp any host 10.11.100.8
+ permit tcp any host 10.11.100.8 eq 2000
+ permit tcp any host 10.11.100.9 eq 22
+ permit tcp any host 10.11.100.9 eq www
+ permit tcp any host 10.11.100.9 eq domain
+ permit tcp any host 10.11.100.9 eq finger
+!
+!
+!
+!
+!
+!
+!
+control-plane
+!
+!
+voice-port 0/0/0
+!
+voice-port 0/0/1
+!
+voice-port 0/0/2
+!
+voice-port 0/0/3
+!
+voice-port 0/1/0
+!
+voice-port 0/1/1
+!
+voice-port 0/1/2
+!
+voice-port 0/1/3
+!
+voice-port 0/4/0
+ auto-cut-through
+ signal immediate
+ input gain auto-control
+ description Music On Hold Port
+!
+!
+!
+mgcp profile default
+!
+!
+dial-peer voice 1 pots
+ destination-pattern 1100
+ port 0/0/0
+!
+dial-peer voice 2 pots
+ destination-pattern 1101
+ port 0/0/1
+!
+dial-peer voice 3 pots
+ destination-pattern 1102
+ port 0/0/2
+!
+dial-peer voice 4 pots
+ destination-pattern 1103
+ port 0/0/3
+!
+dial-peer voice 12 voip
+ destination-pattern 12..
+ session target ipv4:10.12.100.8
+ codec g711ulaw
+!
+dial-peer voice 21 voip
+ destination-pattern 21..
+ session target ipv4:10.21.100.8
+ codec g711ulaw
+!
+dial-peer voice 22 voip
+ destination-pattern 22..
+ session target ipv4:10.22.100.8
+ codec g711ulaw
+!
+dial-peer voice 31 voip
+ destination-pattern 31..
+ session target ipv4:10.31.100.8
+ codec g711ulaw
+!
+dial-peer voice 32 voip
+ destination-pattern 32..
+ session target ipv4:10.32.100.8
+ codec g711ulaw
+!
+dial-peer voice 41 voip
+ destination-pattern 41..
+ session target ipv4:10.41.100.8
+ codec g711ulaw
+!
+dial-peer voice 42 voip
+ destination-pattern 42..
+ session target ipv4:10.42.100.8
+ codec g711ulaw
+!
+dial-peer voice 51 voip
+ destination-pattern 51..
+ session target ipv4:10.51.100.8
+ codec g711ulaw
+!
+dial-peer voice 52 voip
+ destination-pattern 52..
+ session target ipv4:10.52.100.8
+ codec g711ulaw
+!
+dial-peer voice 61 voip
+ destination-pattern 61..
+ session target ipv4:10.61.100.8
+ codec g711ulaw
+!
+dial-peer voice 62 voip
+ destination-pattern 62..
+ session target ipv4:10.62.100.8
+ codec g711ulaw
+!
+dial-peer voice 71 voip
+ destination-pattern 71..
+ session target ipv4:10.71.100.8
+ codec g711ulaw
+!
+dial-peer voice 72 voip
+ destination-pattern 72..
+ session target ipv4:10.72.100.8
+ codec g711ulaw
+!
+dial-peer voice 81 voip
+ destination-pattern 81..
+ session target ipv4:10.81.100.8
+ codec g711ulaw
+!
+dial-peer voice 82 voip
+ destination-pattern 82..
+ session target ipv4:10.82.100.8
+ codec g711ulaw
+!
+!
+!
+!
+telephony-service
+ no auto-reg-ephone
+ max-ephones 5
+ max-dn 20
+ ip source-address 10.11.100.8 port 2000
+ max-conferences 4 gain -6
+ transfer-system full-consult
+ create cnf-files version-stamp 7960 Jan 02 2006 13:55:19
+!
+!
+ephone-dn  1
+ number 1111
+!
+!
+ephone-dn  2
+ number 1122
+!
+!
+ephone-dn  3
+ number 1133
+!
+!
+ephone-dn  4
+ number 1144
+!
+!
+ephone-dn  5
+ number 1155
+!
+!
+ephone-dn  6
+ number 1166
+!
+!
+ephone-dn  7
+ number 1177
+!
+!
+ephone-dn  8
+ number 1188
+!
+!
+ephone  1
+ device-security-mode none
+ video
+ mac-address CCD8.C1FB.09FF
+ max-calls-per-button 3
+ busy-trigger-per-button 2
+ type 8945
+ button  1:1 2:3 3:2 4:4
+!
+!
+!
+ephone  2
+ device-security-mode none
+ video
+ mac-address CCD8.C1FB.0817
+ max-calls-per-button 3
+ busy-trigger-per-button 2
+ type 8945
+ button  1:5 2:6 3:7 4:8
+!
+!
+!
+line con 0
+ exec-timeout 0 0
+ password 7 06160E325F
+ login
+line aux 0
+line 2
+ no activation-character
+ no exec
+ transport preferred none
+ transport input all
+ transport output pad telnet rlogin lapb-ta mop udptn v120 ssh
+line vty 0 4
+ exec-timeout 0 0
+ password 7 03145A1815
+ login
+ transport input all
+line vty 5 14
+ exec-timeout 0 0
+ password 7 03145A1815
+ login
+ transport input all
+!
+end

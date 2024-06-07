@@ -1,0 +1,151 @@
+@CM
+config t
+router eigrp 11
+no auto-summary
+network 10.11.100.0 0.0.0.255
+
+@Corebaba
+config t
+router eigrp 11
+no auto-summary
+network 10.11.100.0 0.0.0.255
+network 10.11.50.0 0.0.0.255
+network 10.11.10.0 0.0.0.255
+network 10.11.1.0 0.0.0.255
+network 10.11.11.0 0.0.0.255
+
+@Edge router
+config t
+router eigrp 11
+no auto-summary
+network 10.11.11.0 0.0.0.255
+
+@Edge Router: both eigrp (internal) and ospf (external):
+config t
+router ospf 1
+router-id 11.0.0.1
+network 200.0.0.0 0.0.0.255 area 0
+network 11.0.0.1 0.0.0.0 area 0
+end
+
+@Edge: redistribute
+config t
+router ospf 1
+redistribute eigrp 11 subnets
+router eigrp 11
+redistribute ospf 1 Metric 1000000 1 255 1 1500
+end
+
+
+Reset Cisco Switch recover password thru rebooting of cisco
+Step1: Press Mode repeatedly, after 10secs:
+switch:
+	flash_init
+	dir flash:
+	rename flash:config.text flash:config.forget
+	dir flash:
+	boot
+	^c
+	enable
+	copy flash:config.bak run
+	config t
+		enable secret pass
+		do wr
+	!!recycle Old commands,but change password
+
+config t
+   hostname COREtaas11
+   enable secret pass
+   service password-encryption
+   no logging console
+   no ip domain-lookup
+   line console 0
+     password pass
+     login
+     exec-timeout 0 0
+    line vty 0 14
+      password pass
+      login
+      exec-timeout 0 0
+   Int Vlan 1
+     no shutdown
+	 ip add 10.11.1.2 255.255.255.0
+	 description MGMTDATA
+   Int Vlan 10
+     no shutdown
+	 ip add 10.11.10.2 255.255.255.0
+	 description WIRELESS
+   Int Vlan 50
+     no shutdown
+	 ip add 10.11.50.2 255.255.255.0
+	 description IPCCTV
+   Int Vlan 100
+     no shutdown
+	 ip add 10.11.100.2 255.255.255.0
+	 description VOICEVLAN
+
+@CUCM
+config t
+no telephony-service
+default int fa 0/0
+
+@EDge: deletes all routing/gentleReset
+config t
+no ip routing
+ip routing
+end
+
+
+@corebaba
+config t
+username admin privilege 15 secret pass
+ip domain-name rivanccna.com
+crypto key generate rsa
+		"if asked, select 512->1024 bit encryption"
+ip ssh version 2
+line vty 0 14
+login local
+end
+
+3. PuKI/pki service: PUBLIC -Private Key Pairs;   ---public key infrastructure
+same public/private = symetric encryption
+diff public/private = asymetric encryption
+
+4.NTP
+
+config t
+ip route 0.0.0.0 0.0.0.0 200.0.0.1
+ip domain-lookup
+ip name-server 8.8.8.8
+ntp server time.google.com
+  do show ntp association
+
+5. NAT
+config t
+no access-list 5
+access-list 5 permit 10.11.0.0 0.0.255.255
+Int Gi 0/0/1
+	ip NAT OUTSIDE
+Int Gi 0/0/0
+	ip NAT INSIDE
+
+ip nat inside source list 5 interface Gi 0/0/1 OVERLOAD
+end
+
+c>ping 8.8.8.8
+
+@COREBABA
+config t
+ip route 0.0.0.0 0.0.0.0 10.11.11.1
+
+@windows 
+route add 0.0.0.0 mask 0.0.0.0 10.11.1.4
+
+kill NAT
+config t
+int Gi 0/0/1
+no ip nat outside
+int Gi 0/0/0
+no ip nat inside
+end
+
